@@ -24,7 +24,7 @@ sub gen_completion {
         my $is_partial = 0;
         if ($word =~ /\A(#?)([0-9A-Fa-f]{0,6})\z/) {
             my $has_pound_sign = $1 ? 1:0;
-            my $digits = lc $1;
+            my $digits = lc $2;
             if (length $digits == 6) {
                 push @words, $digits;
             } else {
@@ -33,7 +33,10 @@ sub gen_completion {
             }
         }
 
-        complete_array_elem(array=>\@words, word=>$word);
+        my $ans = hashify_answer(
+            complete_array_elem(array=>\@words, word=>$word));
+        $ans->{is_partial} = $is_partial;
+        $ans;
     };
 }
 
