@@ -1,13 +1,13 @@
 package Perinci::Sub::XCompletion::colorname;
 
-# DATE
-# VERSION
-
 use 5.010001;
 use strict;
 use warnings;
 
-use Complete::Util qw(complete_hash_key);
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 our %SPEC;
 
@@ -18,13 +18,10 @@ sub gen_completion {
     my %fargs = @_;
 
     sub {
-        require Graphics::ColorNames;
+        require Complete::Color;
 
         my %cargs = @_;
-
-        my $scheme = $fargs{scheme} // 'X';
-        tie my %colors, 'Graphics::ColorNames', $scheme;
-        complete_hash_key(hash=>\%colors, word=>$cargs{word});
+        Complete::Color::complete_color_name(word=>$cargs{word});
     };
 }
 
